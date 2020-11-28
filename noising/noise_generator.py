@@ -83,6 +83,7 @@ class NoiseGenerator(object):
 if __name__=='__main__':
     gen = NoiseGenerator('./word_pron_pair.txt')
     sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
+    #sample_text = '안녕하세요'
     print('original:', sample_text)
     print('noised1:', gen.spliting_noise(sample_text, prob=1))
     print('noised2:', gen.consonant_noise(sample_text, prob=1))

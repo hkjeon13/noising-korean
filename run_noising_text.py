@@ -11,7 +11,8 @@ from noising.noise_generator import NoiseGenerator
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_dir', type=str, default=None, required=True, help='Directory of input files')
 parser.add_argument('--output_dir', type=str, default=None, required=True, help='Directory of output files')
-parser.add_argument('--noise_mode', type=str, default='spliting_noise', help='The number of cpu cores.')
+parser.add_argument('--noise_mode', type=str, default='spliting_noise', help='Mode for nosing texts(can be a comma '
+                                                                             'seperated)')
 parser.add_argument('--noise_prob', type=float, default=0.1, help='Probability of generating a noise.')
 parser.add_argument('--prefix', type=str, default=None, help='Prefix for the output files.')
 parser.add_argument('--delimiter', type=str, default='', help='Delimeter of the units.')
