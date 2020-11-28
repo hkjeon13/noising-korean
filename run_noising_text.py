@@ -46,6 +46,8 @@ def write_text(path, content):
 def gen_func(content, funcs, prob):
     return random.sample(funcs, k=1)[0](content, prob=prob)
 
+def gen_func2(input_file, funcs, prob):
+    return random.sample(funcs, k=1)[0](load_text(input_file), prob=prob)
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -60,8 +62,9 @@ if __name__ == '__main__':
                  'pronoun_noise': generator.pronoun_noise}
     logging.info(f'**noise mode: {args.noise_mode}')
     modes = args.noise_mode.split(',')
-    func = partial(gen_func, funcs=[functions[m] for m in modes], prob=args.noise_prob)
+
     if args.delimiter:
+        func = partial(gen_func, funcs=[functions[m] for m in modes], prob=args.noise_prob)
         for input_file in input_files:
             logging.info(f"input file: {input_file}")
             contents = load_text(input_file)
@@ -73,10 +76,10 @@ if __name__ == '__main__':
             write_text(path_output, noised_texts)
             logging.info(f'Saved successfully in {path_output}')
     else:
+        func = partial(gen_func2, funcs=[functions[m] for m in modes], prob=args.noise_prob)
         for input_file in input_files:
             logging.info(f"**input file: {input_file}")
-        contents = [load_text(inp) for inp in input_files]
-        noised_texts = run_imap_multiprocessing(func, contents, num_cores)
+        noised_texts = run_imap_multiprocessing(func, input_files, num_cores)
         for content, input_path in zip(noised_texts, input_files):
             path_output = os.path.join(args.output_dir, args.prefix + os.path.basename(input_path))
             write_text(path_output, content)
