@@ -12,6 +12,7 @@ parser.add_argument('--output_dir', type=str, default=None, required=True, help=
 parser.add_argument('--noise_mode', type=str, default='vowel_noise', help='The number of cpu cores.')
 parser.add_argument('--num_cores', type=str, default=None, help='The number of cpu cores.')
 parser.add_argument('--path_pron', type=str, default='./noising/word_pron_pair.txt', help='Dictionary path for pronounciation noise.')
+parser.add_argument( '--prefix', type=str, default='noised_', help='Prefix for the output files.')
 parser.add_argument('--delimiter', type=str, default='\n', help='Delimeter of the units.')
 parser.add_argument('--noise_prob', type=float, default=0.1, help='Probability of generating a noise.')
 
@@ -61,6 +62,6 @@ if __name__ == '__main__':
         contents = load_text(input_file)
         contents = contents.split(args.delimiter)
         noised_texts = run_imap_multiprocessing(func, contents, num_cores)
-        path_output = os.path.join(args.output_dir, os.path.basename(input_file))
+        path_output = os.path.join(args.output_dir, args.prefix+os.path.basename(input_file))
         write_text(path_output, str(args.delimiter).join(noised_texts))
         logging.info(f'Saved successfully in {path_output}')
