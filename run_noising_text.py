@@ -46,8 +46,10 @@ def write_text(path, content):
 def gen_func(content, funcs, prob):
     return random.sample(funcs, k=1)[0](content, prob=prob)
 
+
 def gen_func2(input_file, funcs, prob):
     return random.sample(funcs, k=1)[0](load_text(input_file), prob=prob)
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
