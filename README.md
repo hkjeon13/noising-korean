@@ -5,7 +5,7 @@
 ## 실행 방법
 ```
 python run_nosing_text.py --input_dir <input_directory> --output_dir <output_directory> \
---noise_mode vowel_noise --noise_prob 0.1 --prefix noised_ --delimiter \n --num_cores 16
+--noise_mode spliting_noise --noise_prob 0.1 --prefix noised_ --delimiter \n --num_cores 16
 ```
 - input_dir: 입력 파일들이 위치한 폴더의 경로입니다.
 - output_dir: 출력 파일들이 저장될 폴더의 경로입니다(파일이름:<prefix>+<input_filename>).
