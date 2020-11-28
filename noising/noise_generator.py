@@ -20,7 +20,7 @@ class NoiseGenerator(object):
     def load_pairs(self, path):
         with open(path, 'r', encoding='utf-8') as r:
             contents = [l.split('\t') for l in r.read().split('\n')]
-        dictionary = {k: v for k, v in contents if k != v and k.strip() != ''}
+        dictionary = {k: v for k, v in contents if k != v and k.strip() != '' and len(k)>1}
         return dictionary
 
     def jamo_split(self, char):
