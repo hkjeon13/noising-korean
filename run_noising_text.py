@@ -1,5 +1,4 @@
 import os
-import ast
 import random
 import argparse
 import logging
@@ -62,13 +61,23 @@ if __name__ == '__main__':
     logging.info(f'**noise mode: {args.noise_mode}')
     modes = args.noise_mode.split(',')
     func = partial(gen_func, funcs=[functions[m] for m in modes], prob=args.noise_prob)
-    for input_file in input_files:
-        logging.info(f"input file: {input_file}")
-        contents = load_text(input_file)
-        args.delimiter = ESCAPE[args.delimiter] if args.delimiter in ESCAPE else args.delimiter
-        contents = contents.split(args.delimiter) if args.delimiter else [contents]
+    if args.delimiter:
+        for input_file in input_files:
+            logging.info(f"input file: {input_file}")
+            contents = load_text(input_file)
+            args.delimiter = ESCAPE[args.delimiter] if args.delimiter in ESCAPE else args.delimiter
+            contents = contents.split(args.delimiter) if args.delimiter else [contents]
+            noised_texts = run_imap_multiprocessing(func, contents, num_cores)
+            path_output = os.path.join(args.output_dir, args.prefix + os.path.basename(input_file))
+            noised_texts = args.delimiter.join(noised_texts)
+            write_text(path_output, noised_texts)
+            logging.info(f'Saved successfully in {path_output}')
+    else:
+        for input_file in input_files:
+            logging.info(f"**input file: {input_file}")
+        contents = [load_text(inp) for inp in input_files]
         noised_texts = run_imap_multiprocessing(func, contents, num_cores)
-        path_output = os.path.join(args.output_dir, args.prefix + os.path.basename(input_file))
-        noised_texts = args.delimiter.join(noised_texts) if args.delimiter else ''.join(noised_texts)
-        write_text(path_output, noised_texts)
-        logging.info(f'Saved successfully in {path_output}')
+        for content, input_path in zip(noised_texts, input_files):
+            path_output = os.path.join(args.output_dir, args.prefix + os.path.basename(input_path))
+            write_text(path_output, content)
+            logging.info(f'Saved successfully in {path_output}')
