@@ -14,14 +14,19 @@ class NoiseGenerator(object):
         self.exceptions = ['ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅗ']
         self.pairs = {'ㅏ': 'ㅑ', 'ㅑ': 'ㅏ', 'ㅓ': 'ㅕ', 'ㅕ': 'ㅓ', 'ㅗ': 'ㅛ', 'ㅛ': 'ㅗ', 'ㅜ': 'ㅠ', 'ㅠ': 'ㅜ', }
         self.replace_pair = None
+        self.path = path_pairs
         if path_pairs:
-            self.replace_pair = self.load_pairs(path_pairs)
+            self.replace_pair = self.load_pairs(self.path)
 
     def load_pairs(self, path):
         with open(path, 'r', encoding='utf-8') as r:
             contents = [l.split('\t') for l in r.read().split('\n')]
         dictionary = {k: v for k, v in contents if k != v and k.strip() != '' and len(k)>1}
         return dictionary
+
+    def write_pairs(self, path, content):
+        with open(path, 'w', encoding='utf-8') as w:
+            w.write(content)
 
     def jamo_split(self, char):
         base = ord(char) - ord('가')
@@ -42,7 +47,7 @@ class NoiseGenerator(object):
                   enumerate(output)]
         return ''.join(output)
 
-    def vowel_noise(self, content, prob=0.1):
+    def spliting_noise(self, content, prob=0.1):
         output = [self.jamo_split(ch) if re.match('[가-힣]', ch) else [ch, '', ''] for ch in content]
         condition = lambda xlist: ((xlist[-1] == ' ') and (xlist[-2] in self.pairs))
         output = [
@@ -61,3 +66,24 @@ class NoiseGenerator(object):
                     content = content.replace(key, self.replace_pair[key])
                     index_set.update(idxes)
         return content
+
+    def add_replace_dict(self, key, value):
+        self.replace_pair[key] = value
+
+    def rm_replace_dict(self, key):
+        del self.replace_pair[key]
+
+    def update_pairs(self):
+        condition = lambda k,v: k!=v and len(k) > 1
+        save_values = [k+'\t'+v for k,v in self.replace_pair.items() if condition(k,v)]
+        with open(self.path, 'w', encoding='utf-8') as w:
+            w.write('\n'.join(save_values))
+
+
+if __name__=='__main__':
+    gen = NoiseGenerator('./word_pron_pair.txt')
+    TEXT = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
+    print('original:', TEXT)
+    print('noised1:', gen.spliting_noise(TEXT, prob=1))
+    print('noised2:', gen.consonant_noise(TEXT, prob=1))
+    print('noised3:', gen.pronoun_noise(TEXT,prob=1))
