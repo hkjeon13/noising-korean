@@ -38,8 +38,10 @@ def write_text(path, content):
     with open(path, 'w', encoding='utf-8') as w:
         w.write(content)
 
+
 def gen_func(content, funcs):
-    return random.sample(funcs)[0](content, prob=args.noise_prob)
+    return random.sample(funcs, k=1)[0](content, prob=args.noise_prob)
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
