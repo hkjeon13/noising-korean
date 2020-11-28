@@ -69,5 +69,6 @@ if __name__ == '__main__':
         contents = contents.split(args.delimiter) if args.delimiter else [contents]
         noised_texts = run_imap_multiprocessing(func, contents, num_cores)
         path_output = os.path.join(args.output_dir, args.prefix + os.path.basename(input_file))
-        write_text(path_output, args.delimiter.join(noised_texts))
+        noised_texts = args.delimiter.join(noised_texts) if args.delimiter else ''.join(noised_texts)
+        write_text(path_output, noised_texts)
         logging.info(f'Saved successfully in {path_output}')
