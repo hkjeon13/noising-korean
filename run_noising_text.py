@@ -39,8 +39,8 @@ def write_text(path, content):
         w.write(content)
 
 
-def gen_func(content, funcs):
-    return random.sample(funcs, k=1)[0](content, prob=args.noise_prob)
+def gen_func(content, funcs, prob):
+    return random.sample(funcs, k=1)[0](content, prob=prob)
 
 
 if __name__ == '__main__':
@@ -57,7 +57,7 @@ if __name__ == '__main__':
                  }
     logging.info(f'**noise mode: {args.noise_mode}')
     modes = args.noise_mode.split(',')
-    func = partial(gen_func, funcs=[ functions[m] for m in modes])
+    func = partial(gen_func, funcs=[ functions[m] for m in modes], prob=args.noise_prob)
     for input_file in input_files:
         logging.info(f"input file: {input_file}")
         contents = load_text(input_file)
