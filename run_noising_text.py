@@ -1,4 +1,5 @@
 import os
+import random
 import argparse
 import logging
 from tqdm import tqdm
@@ -37,6 +38,8 @@ def write_text(path, content):
     with open(path, 'w', encoding='utf-8') as w:
         w.write(content)
 
+def gen_func(content, funcs):
+    return random.sample(funcs)[0](content, prob=args.noise_prob)
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -46,18 +49,13 @@ if __name__ == '__main__':
     logging.info(f'the number of cpu cores: {num_cores}')
     input_files = [os.path.join(args.input_dir, fname) for fname in os.listdir(args.input_dir)]
     generator = NoiseGenerator(args.path_pron)
-    func = None
+    functions = {'vowel_noise':generator.vowel_noise,
+                 'consonant_noise': generator.consonant_noise,
+                 'pronoun_noise': generator.pronoun_noise
+                 }
     logging.info(f'**noise mode: {args.noise_mode}')
-    if args.noise_mode == 'vowel_noise':
-        func = generator.vowel_noise
-    elif args.noise_mode == 'consonant_noise':
-        func = generator.consonant_noise
-    elif args.noise_mode == 'pronoun_noise':
-        func = generator.pronoun_noise
-    else:
-        raise KeyError('Not Supported!')
-
-    func = partial(func, prob=args.noise_prob)
+    modes = args.noise_mode.split(',')
+    func = partial(gen_func, funcs=[ functions[m] for m in modes])
     for input_file in input_files:
         logging.info(f"input file: {input_file}")
         contents = load_text(input_file)
