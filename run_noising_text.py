@@ -61,7 +61,7 @@ if __name__ == '__main__':
     generator = NoiseGenerator(args.path_pron)
     functions = {'spliting_noise': generator.spliting_noise,
                  'consonant_noise': generator.consonant_noise,
-                 'pronoun_noise': generator.pronoun_noise}
+                 'phonological_noise': generator.phonological_process}
     logging.info(f'**noise mode: {args.noise_mode}')
     modes = args.noise_mode.split(',')
 
