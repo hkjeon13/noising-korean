@@ -1,4 +1,4 @@
-# noising_korean
+# noising-korean
 한국어 문서에 노이즈를 추가하는 것을 도와주는 소스 코드입니다.
 
 
@@ -28,7 +28,7 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 
 3. 발음을 통한 변형
 발음을 바탕으로 단어를 변형시킵니다(너무 닮았다 > 너무 달맜다).
-
+(3번의 경우 이슈가 있어서 현재 개선 중에 있습니다.)
 
 **변형 예시**
 ```
