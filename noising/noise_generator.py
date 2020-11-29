@@ -113,8 +113,7 @@ class NoiseGenerator(object):
 
 if __name__=='__main__':
     gen = NoiseGenerator()
-    sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다. '
-    sample_text='같이 있을 때. 무릎이 아프다. 앞날이 창창하다. 공권력'
+    sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
     print('original:', sample_text)
     print('noised1:', gen.spliting_noise(sample_text, prob=1))
     print('noised2:', gen.vowel_noise(sample_text, prob=1))
