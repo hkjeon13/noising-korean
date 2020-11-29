@@ -69,18 +69,32 @@ class NoiseGenerator(object):
         return fc, nc
 
     def liquidization(self, fc, nc):
-        liquid_set = {'ㄴㄹ': 'ㄹㄹ', 'ㄹㄴ': 'ㄹㄹ'}
-        fc_c = fc[-1] + nc[0]
-        if fc_c in liquid_set:
-            fc[-1], nc[0] = liquid_set[fc_c]
-        return fc, nc
+        liquid_set = {'ㄴㄹ': 'ㄹㄹ', 'ㄹㄴ': 'ㄹㄹ', 'ㄾㄴ':'ㄹㄹ'}
+        exception_set = {'ㄴㄹㅕㄱ':'ㄴㄴ'}
+
+        if fc[-1]+''.join(nc) in exception_set:
+            fc[-1], nc[0] = exception_set[fc[-1]+''.join(nc)]
+            return fc, nc
+        else:
+            if fc[-1] + nc[0] in liquid_set:
+                fc[-1], nc[0] = liquid_set[fc[-1] + nc[0]]
+            return fc, nc
 
     def nasalization(self, fc, nc):
         nasalization_set = {'ㅂㅁ': 'ㅁㅁ', 'ㄷㄴ': 'ㄴㄴ', 'ㄱㅁ': 'ㅇㅁ', 'ㄱㄴ': 'ㅇㄴ', 'ㅇㄹ': 'ㅇㄴ',
-                            'ㅁㄹ': 'ㅁㄴ', 'ㄲㄴ': 'ㅇㄴ', 'ㄱㄹ': 'ㅇㄴ', 'ㅂㄹ': 'ㅁㄴ', 'ㄱㄹ': 'ㅇㄴ'}
+                            'ㅁㄹ': 'ㅁㄴ', 'ㄲㄴ': 'ㅇㄴ', 'ㄱㄹ': 'ㅇㄴ', 'ㅂㄹ': 'ㅁㄴ', 'ㄱㄹ': 'ㅇㄴ',
+                            'ㅊㄹ': 'ㄴㄴ', 'ㄺㄴ': 'ㅇㄴ', 'ㅍㄴ': 'ㅁㄴ'}
         fc_c = fc[-1] + nc[0]
         if fc_c in nasalization_set:
             fc[-1], nc[0] = nasalization_set[fc_c]
+        return fc, nc
+
+    def assimilation(self, fc, nc):
+        # assimilation not employed in the nasalization function. each other has the similar rules.
+        reverse_assimil = {'ㄺㄴ':'ㅇㄴ'}
+        fc_c = fc[-1] + nc[0]
+        if fc_c in reverse_assimil:
+            fc[-1], nc[0] = reverse_assimil[fc_c]
         return fc, nc
 
     def phonological_process(self, content, prob=0.3):
@@ -99,7 +113,8 @@ class NoiseGenerator(object):
 
 if __name__=='__main__':
     gen = NoiseGenerator()
-    sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다. 같이 있을 때. 무릎이 아프다'
+    sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다. '
+    sample_text='같이 있을 때. 무릎이 아프다. 앞날이 창창하다. 공권력'
     print('original:', sample_text)
     print('noised1:', gen.spliting_noise(sample_text, prob=1))
     print('noised2:', gen.vowel_noise(sample_text, prob=1))
