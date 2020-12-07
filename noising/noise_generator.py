@@ -1,5 +1,6 @@
 import re
 import random
+import logging
 
 consonant = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
 vowel = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ',
@@ -67,7 +68,7 @@ def palatalization(fc, nc):
 
 def linking(fc, nc):
     formal_morpheme = [jamo_split(mor) for mor in ['이', '을', '를', '은', '았', '었', '아', '어']]
-    links = {'ㄻ': 'ㄹㅁ', 'ㅄ': 'ㅂㅆ', 'ㄳ': 'ㄱㅅ', 'ㄽ': 'ㄹㅅ', 'ㅊ': ' ㅊ', 'ㅂ': ' ㅂ', 'ㅍ': ' ㅂ', 'ㄷ':' ㄹ', 'ㄹ': ' ㄹ'}
+    links = {'ㄻ': 'ㄹㅁ', 'ㅄ': 'ㅂㅆ', 'ㄳ': 'ㄱㅅ', 'ㄽ': 'ㄹㅅ', 'ㅊ': ' ㅊ', 'ㅂ': ' ㅂ', 'ㅍ': ' ㅂ', 'ㄷ':' ㄹ', 'ㄹ': ' ㄹ', 'ㄹㅎ':' ㄹ'}
     if (fc[-1] in links) and (nc in formal_morpheme):
         fc[-1], nc[0] = links[fc[-1]]
     return fc, nc
@@ -121,7 +122,8 @@ def phonological_process(content, prob=0.3):
 
 if __name__ == '__main__':
     sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
-    print('original:', sample_text)
-    print('noised1:', splitting_noise(sample_text, prob=1))
-    print('noised2:', vowel_noise(sample_text, prob=1))
-    print('noised3:', phonological_process(sample_text, prob=1))
+    logging.basicConfig(level=logging.INFO)
+    logging.info(f'original: {sample_text}')
+    logging.info(f'noised1: {splitting_noise(sample_text, prob=1)}')
+    logging.info(f'noised2: {vowel_noise(sample_text, prob=1)}')
+    logging.info(f'noised3: {phonological_process(sample_text, prob=1)}')
