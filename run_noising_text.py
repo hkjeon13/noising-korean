@@ -10,7 +10,7 @@ from noising.noise_generator import *
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_dir', type=str, default=None, required=True, help='Directory of input files')
 parser.add_argument('--output_dir', type=str, default=None, required=True, help='Directory of output files')
-parser.add_argument('--noise_mode', type=str, default='splitting', help='Mode for nosing texts(can be a comma '
+parser.add_argument('--noise_mode', type=str, default='jamo_split', help='Mode for nosing texts(can be a comma '
                                                                         'seperated / default:"jamo_split", '
                                                                         'support mode: ["jamo_split", "vowel_change", '
                                                                         '"phonological_change"])')
