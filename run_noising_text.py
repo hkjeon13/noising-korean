@@ -71,9 +71,9 @@ def get_input_files(path_dir):
 
 
 def get_noise_functions(func_names=[]):
-    dict_func = {'splitting': splitting_noise,
-                 'vowel': vowel_noise,
-                 'phonological': phonological_process}
+    dict_func = {'jamo_split': splitting_noise,
+                 'vowel_change': vowel_noise,
+                 'phonological_change': phonological_process}
     return [dict_func[f] for f in func_names if f in dict_func]
 
 
@@ -87,6 +87,8 @@ if __name__ == '__main__':
     logging.info(f'** the number of cpu cores: {num_cores}')
 
     functions = get_noise_functions(args.noise_mode.split(','))
+    if not functions:
+        raise KeyError('There is no functions to apply. Please check the flag of the methods.')
     logging.info(f'** noise mode: {args.noise_mode}')
 
     input_files = get_input_files(args.input_dir)
