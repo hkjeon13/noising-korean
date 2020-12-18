@@ -11,9 +11,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input_dir', type=str, default=None, required=True, help='Directory of input files')
 parser.add_argument('--output_dir', type=str, default=None, required=True, help='Directory of output files')
 parser.add_argument('--noise_mode', type=str, default='jamo_split', help='Mode for nosing texts(can be a comma '
-                                                                        'seperated / default:"jamo_split", '
-                                                                        'support mode: ["jamo_split", "vowel_change", '
-                                                                        '"phonological_change"])')
+                                                                         'seperated / default:"jamo_split", '
+                                                                         'support mode: ["jamo_split", "vowel_change", '
+                                                                         '"phonological_change"])')
 parser.add_argument('--noise_prob', type=float, default=0.1, help='Probability of generating a noise.')
 parser.add_argument('--prefix', type=str, default='', help='Prefix for the output files.')
 parser.add_argument('--delimiter', type=str, default='', help='Delimeter of the units.')
@@ -21,7 +21,7 @@ parser.add_argument('--delimiter', type=str, default='', help='Delimeter of the 
 parser.add_argument('--num_cores', type=str, default=None, help='The number of cpu cores for the multi-process.')
 parser.add_argument('--parallel', type=str, default='intra', help='The way to use the cpu cores for the data'
                                                                   '("intra" - multiprocessing on the files, '
-                                                                  '"inter" - multiprocessing in one data files).')
+                                                                  '"inter" - multiprocessing in single data files).')
 
 
 def run_imap_multi_1(func, argument_list, num_processes, deli=None):
@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
     if args.parallel == 'intra':
         func = partial(generating_from_file, funcs=functions, deli=delimiter, prob=args.noise_prob)
-        run_imap_multi_1(func, list(zip(input_files,output_files)), num_cores, deli=delimiter)
+        run_imap_multi_1(func, list(zip(input_files, output_files)), num_cores, deli=delimiter)
     else:
         func = partial(generating_from_string, funcs=functions, prob=args.noise_prob)
         for input_file, output_file in zip(input_files, output_files):
