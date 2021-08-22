@@ -14,6 +14,7 @@ oral_consonant = ['ㄱ', 'ㄷ', 'ㄹ', 'ㅂ', 'ㅅ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ',
 nasal_consonant = ['ㅁ', 'ㄴ', 'ㅇ']
 liquid_consonant = ['ㄹ']
 
+kor_eng_pairs = {'ㅏ':'r'}
 
 def load_pairs(path):
     with open(path, 'r', encoding='utf-8') as r:
@@ -120,6 +121,12 @@ def phonological_process(content, prob=0.3):
     return content
 
 
+def add_dot(contents, prob=0.3):
+    indexes = random.sample(range(len(contents)), int(len(contents)*prob))
+    contents = ''.join([c+'.' if i in indexes else c for i,c in enumerate(contents)])
+    return contents
+
+
 if __name__ == '__main__':
     sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
     logging.basicConfig(level=logging.INFO)
@@ -127,3 +134,4 @@ if __name__ == '__main__':
     logging.info(f'noised1: {splitting_noise(sample_text, prob=1)}')
     logging.info(f'noised2: {vowel_noise(sample_text, prob=1)}')
     logging.info(f'noised3: {phonological_process(sample_text, prob=1)}')
+    logging.info(f'noised4: {add_dot(sample_text, prob=1)}')

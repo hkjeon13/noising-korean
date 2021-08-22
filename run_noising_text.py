@@ -24,6 +24,7 @@ parser.add_argument('--parallel', type=str, default='intra', help='The way to us
                                                                   '"inter" - multiprocessing in single data files).')
 
 
+
 def run_imap_multi_1(func, argument_list, num_processes, deli=None):
     pool = Pool(processes=num_processes)
     deli = '' if not deli else deli
@@ -75,7 +76,8 @@ def get_input_files(path_dir):
 def get_noise_functions(func_names=[]):
     dict_func = {'jamo_split': splitting_noise,
                  'vowel_change': vowel_noise,
-                 'phonological_change': phonological_process}
+                 'phonological_change': phonological_process,
+                 'add_space': add_dot}
     return [dict_func[f] for f in func_names if f in dict_func]
 
 
