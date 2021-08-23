@@ -9,7 +9,7 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 ```
 - **input_dir**: 입력 파일들이 위치한 폴더의 경로입니다.
 - **output_dir**: 출력 파일들이 저장될 폴더의 경로입니다(파일이름:<prefix>+<input_filename>).
-- **noise_mode**: 노이즈를 생성하는 방법을 설정합니다(default:'jamo_split', support mode: ['jamo_split', 'vowel_change', 'phonological_change']). 
+- **noise_mode**: 노이즈를 생성하는 방법을 설정합니다(default:'jamo_split', support mode: ['jamo_split', 'vowel_change', 'phonological_change','add_dot','kor2eng']). 
 - **noise_prob**: 노이즈가 생성될 확률을 결정합니다(default:0.1(range:[0,1]), 단위 문서에 대해 적용됩니다).
 - **prefix**: 출력 파일 앞에 붙는 접두사입니다(default:'').
 - **delimiter**: 입력 파일에서 문서의 단위화를 위한 분리 구분자입니다(default:'', 문장이 \n 으로 분리되어 있을 경우 \n으로 설정하여 단위 문장에 대해 노이즈를 추가합니다).
@@ -18,13 +18,17 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 
 
 ## 노이즈 생성 방법
-노이즈를 생성하는 방법은 총 3가지가 구현되어 있습니다.
+노이즈를 생성하는 방법은 총 5가지가 구현되어 있습니다.
 
 **[jamo_split]** 자모 분리(alphabet separation)에 의한 노이즈 추가 방법. 글자의 자음과 모음을 분리합니다. 단, 가독성을 위해 종성이 없으며 중성이  'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅗ' 가 아닐 경우 실행합니다(예: 안녕하세요 > 안녕ㅎㅏㅅㅔ요)
 
 **[vowel_change]** 모음 변형에 의한 노이즈 추가 방법. 글자의 모음을 변형시킵니다. 단, 가독성을 위해 종성이 없으며 중성이 'ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ' 일 경우 실행합니다(예: 안녕하세요 > 안녕햐세오).
 
 **[phonological_change]** 음운변화에 의한 노이즈 추가 방법. 발음을 바탕으로 단어를 변형시킵니다(너무 닮았다 > 너무 달맜다).
+
+**[add_noise]** 한국어 텍스트 사이에 온점(.)을 추가한다(너무 닮았다 > 너.무 닮.았.다.).
+
+**[kor2eng]** 초성, 중성 중 일부를 영어로 변환한다(너무 닮았다 > 너무 닮았ㄷr).
 
 
 **변형 예시**
@@ -36,6 +40,10 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 [vowel_change, prob=1] 행복한 갸정은 묘듀갸 닮았지만, 불행한 갸정은 묘듀 져먀댜의 이우료 불행햐댜.
 
 [phonological_change, prob=1] 행복한 가정은 모두가 달맜지만, 불행한 가정은 모두 저마다의 이유로 불행하다.
+
+[add_dot] 행.복.한. .가.정.은. .모.두.가. .닮.았.지.만.,. .불.행.한. .가.정.은. .모.두. .저.마.다.의. .이.유.로. .불.행.하.다...
+
+[kor2eng] 행복한 ㄱr정은 모두ㄱr 닮았ㅈl만, 불행한 ㄱr정은 모두 저ㅁrㄷr의 ㅇl유로 불행ㅎrㄷr.
 ```
 
 ## 기타
