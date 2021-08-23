@@ -137,6 +137,7 @@ def replace_kor_eng(content, prob=0.1):
               enumerate(output)]
     return ''.join(output)
 
+
 def ya(charlist):
     out = ''.join(charlist)
     for k,v in ya_min_jung_um.items():
