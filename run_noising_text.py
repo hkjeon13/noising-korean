@@ -76,7 +76,9 @@ def get_noise_functions(func_names=[]):
     dict_func = {'jamo_split': splitting_noise,
                  'vowel_change': vowel_noise,
                  'phonological_change': phonological_process,
-                 'add_dot': add_dot}
+                 'add_dot': add_dot,
+                 'kor2eng': replace_kor_eng
+                 }
     return [dict_func[f] for f in func_names if f in dict_func]
 
 
