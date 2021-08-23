@@ -28,7 +28,7 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 
 **[add_noise]** 한국어 텍스트 사이에 온점(.)을 추가한다(너무 닮았다 > 너.무 닮.았.다.).
 
-**[kor2eng]** 초성, 중성 중 일부를 영어로 변환한다(너무 닮았다 > 너무 닮았ㄷr).
+**[kor2eng]** 중성 중 일부를 영어로 변환한다(너무 닮았다 > 너무 닮았ㄷr).
 
 
 **변형 예시**
