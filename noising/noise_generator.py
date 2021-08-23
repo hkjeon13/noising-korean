@@ -14,7 +14,8 @@ oral_consonant = ['ㄱ', 'ㄷ', 'ㄹ', 'ㅂ', 'ㅅ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ',
 nasal_consonant = ['ㅁ', 'ㄴ', 'ㅇ']
 liquid_consonant = ['ㄹ']
 
-kor_eng_pairs = {'ㅏ':'r'}
+kor_eng_pairs = {'ㅏ': 'r', 'ㅣ': 'l', }
+
 
 def load_pairs(path):
     with open(path, 'r', encoding='utf-8') as r:
@@ -127,6 +128,15 @@ def add_dot(contents, prob=0.3):
     return contents
 
 
+def replace_kor_eng(content, prob=0.1):
+    condition = lambda xlist: ((xlist[-1] == ' ') and (xlist[-2] in kor_eng_pairs))
+
+    output = [jamo_split(ch) if re.match('[가-힣]', ch) else [ch, '', ''] for ch in content]
+    output = [''.join([out[0],kor_eng_pairs[out[1]],out[2]]).strip() if condition(out) and (random.random() < prob) else content[i] for i, out in
+              enumerate(output)]
+    return ''.join(output)
+
+
 if __name__ == '__main__':
     sample_text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
     logging.basicConfig(level=logging.INFO)
@@ -135,3 +145,4 @@ if __name__ == '__main__':
     logging.info(f'noised2: {vowel_noise(sample_text, prob=1)}')
     logging.info(f'noised3: {phonological_process(sample_text, prob=1)}')
     logging.info(f'noised4: {add_dot(sample_text, prob=1)}')
+    logging.info(f'noised5: {replace_kor_eng(sample_text, prob=1)}')
