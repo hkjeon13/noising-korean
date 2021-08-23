@@ -26,7 +26,7 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 
 **[phonological_change]** 음운변화에 의한 노이즈 추가 방법입니다. 발음을 바탕으로 단어를 변형시킵니다(너무 닮았다 > 너무 달맜다).
 
-**[add_noise]** 한국어 텍스트 사이에 온점(.)을 추가합니다(너무 닮았다 > 너.무 닮.았.다.).
+**[add_noise]** 한국어 텍스트 사이에 온점(.)을 추가합니다(너무 닮았다 > 너.무 닮았.다.).
 
 **[kor2eng]** 중성 중 일부를 영어로 변환합니다(너무 닮았다 > 너무 닮았ㄷr).
 
