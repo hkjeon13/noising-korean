@@ -137,7 +137,7 @@ def replace_kor_eng(content, prob=0.1):
               enumerate(output)]
     return ''.join(output)
 
-def yamin(charlist):
+def ya(charlist):
     out = ''.join(charlist)
     for k,v in ya_min_jung_um.items():
         if k in out:
@@ -146,10 +146,10 @@ def yamin(charlist):
     return list(out)
 
 
-def yamin_jungum(content, prob=0.1):
+def yamin(content, prob=0.1):
     condition = lambda xlist: xlist[-1] != ''
     output = [jamo_split(ch) if re.match('[가-힣]', ch) else [ch, '', ''] for ch in content]
-    output = [jamo_merge(yamin(out)) if (random.random() < prob) and condition(out) else content[i]
+    output = [jamo_merge(ya(out)) if (random.random() < prob) and condition(out) else content[i]
               for i, out in enumerate(output)]
     return ''.join(output)
 
@@ -163,4 +163,4 @@ if __name__ == '__main__':
     logging.info(f'noised3: {phonological_process(sample_text, prob=1)}')
     logging.info(f'noised4: {add_dot(sample_text, prob=1)}')
     logging.info(f'noised5: {replace_kor_eng(sample_text, prob=1)}')
-    logging.info(f'noised6: {yamin_jungum(sample_text, prob=1)}')
+    logging.info(f'noised6: {yamin(sample_text, prob=1)}')

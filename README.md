@@ -30,6 +30,9 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 
 **[kor2eng]** 중성 중 일부를 영어로 변환한다(너무 닮았다 > 너무 닮았ㄷr).
 
+**[yamin]** 야민정음으로 일부 글자를 변환한다(귀여워 > 커여워). 단, 가독성이 떨어지는 일부 표현은 제외되었습니다.
+
+
 
 **변형 예시**
 ```
@@ -44,6 +47,9 @@ python run_nosing_text.py --input_dir <input_directory> --output_dir <output_dir
 [add_dot, prob=1.] 행.복.한. .가.정.은. .모.두.가. .닮.았.지.만.,. .불.행.한. .가.정.은. .모.두. .저.마.다.의. .이.유.로. .불.행.하.다...
 
 [kor2eng, prob=1.] 행복한 ㄱr정은 모두ㄱr 닮았ㅈl만, 불행한 ㄱr정은 모두 저ㅁrㄷr의 ㅇl유로 불행ㅎrㄷr.
+
+[yamin, prob=1.] 행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이윾로 불행하다.
+
 ```
 
 ## 기타

@@ -78,7 +78,7 @@ def get_noise_functions(func_names=[]):
                  'phonological_change': phonological_process,
                  'add_dot': add_dot,
                  'kor2eng': replace_kor_eng,
-                 'yamin_jungum':yamin_jungum
+                 'yamin':yamin,
                  }
     return [dict_func[f] for f in func_names if f in dict_func]
 
