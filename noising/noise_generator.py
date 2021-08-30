@@ -14,9 +14,11 @@ oral_consonant = ['ㄱ', 'ㄷ', 'ㄹ', 'ㅂ', 'ㅅ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ',
 nasal_consonant = ['ㅁ', 'ㄴ', 'ㅇ']
 liquid_consonant = ['ㄹ']
 
-kor_eng_pairs = {'ㅏ': 'r', 'ㅣ': 'l', }
+ke_cons = {'ㅌ': 'E', 'ㄱ': '7', 'ㄴ': 'L', 'ㅇ': 'O'}
+ke_vowel = {'ㅏ': 'r', 'ㅣ': 'l', 'ㅐ': 'H'}
 ya_min_jung_um = {'ㄷㅐ': 'ㅁㅓ', 'ㅁㅕ': 'ㄸㅣ', 'ㄱㅟ':'ㅋㅓ', 'ㅍㅏ':'ㄱㅘ', 'ㅍㅣ':'ㄲㅢ', 'ㅇㅠ ':'ㅇㅡㄲ', 'ㄱㅜㅅ':'ㄱㅡㅅ'}
 
+exceptions = ['ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅗ']
 
 def load_pairs(path):
     with open(path, 'r', encoding='utf-8') as r:
@@ -41,7 +43,6 @@ def jamo_merge(jamo_list):
 
 
 def splitting_noise(content, prob=0.1):
-    exceptions = ['ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅗ']
     condition = lambda xlist: ((xlist[-1] == ' ') and (xlist[-2] not in exceptions))
 
     output = [jamo_split(ch) if re.match('[가-힣]', ch) else [ch, '', ''] for ch in content]
@@ -130,10 +131,11 @@ def add_dot(contents, prob=0.3):
 
 
 def replace_kor_eng(content, prob=0.1):
-    condition = lambda xlist: ((xlist[-1] == ' ') and (xlist[-2] in kor_eng_pairs))
-
+    condition = lambda xlist: (xlist[2] == ' ' and (xlist[1] in ke_vowel or xlist[0] in ke_cons) and xlist[1] not in exceptions)
+    mapping = lambda dic,q: dic[q] if q in dic else q
     output = [jamo_split(ch) if re.match('[가-힣]', ch) else [ch, '', ''] for ch in content]
-    output = [''.join([out[0],kor_eng_pairs[out[1]],out[2]]).strip() if condition(out) and (random.random() < prob) else content[i] for i, out in
+
+    output = [''.join([mapping(ke_cons,out[0]), mapping(ke_vowel, out[1]), out[2]]).strip() if condition(out) and (random.random() < prob) else content[i] for i, out in
               enumerate(output)]
     return ''.join(output)
 
