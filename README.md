@@ -1,6 +1,6 @@
 # 한국어 노이즈 추가 (noising-korean)
-한국어 문서에 노이즈를 추가하는 것을 도와주는 소스 코드입니다.
-
+한국어 문서에 노이즈를 추가하는 것을 도와주는 소스 코드입니다. 
+이 레퍼지토리는 더이상 관리되지 않으며, 아래 링크에서 발전, 개발 중입니다.
 (PyPI 버전 - https://github.com/wisenut-research/konoise, Python+Rust)
 
 ## 실행 방법
